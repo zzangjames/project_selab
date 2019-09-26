@@ -1,0 +1,87 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing:border-box;
+}
+
+body {
+    font-family: 'Open+sans';
+    font-size: 20px;
+    font-weight: 200;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.row {
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
+/*--------------------- Header ----------------------------*/
+
+header {
+    height : 95vh;
+    background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)), url(../img/background1.jpg);
+    background-position: center;
+    background-size:cover;
+}
+
+.logo {
+    float:left;
+    margin-top:30px;
+    display: inline-block;
+    color: #fff;
+    margin-left: 200px;
+}
+
+.login {
+    padding-top:2px;
+    margin-left: 100px;
+}
+
+.login:link,
+.login:visited{
+    font-weight: 400;
+}
+
+.login:hover,
+.login:active{
+    text-shadow: 0.15em 0.15em 0.2em #ffff00;
+    border-bottom: 1px solid transparent;
+    transition: text-shadow 0.3s;
+}
+
+nav{
+    height : 10vh;
+    background-color: #000;
+}
+
+nav div{
+    float:right;
+}
+
+nav:first-child{
+    padding-right: 100px;
+}
+
+nav a{
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-right : 40px;
+    margin-top: 30px;
+}
+
+nav a:link,
+nav a:visited{
+    color: #fff;
+    border-bottom : 1px solid transparent;
+}
+
+nav a:hover,
+nav a:active{
+    border-bottom : 1px solid yellow;
+	transition: border-bottom 0.3s;
+}
