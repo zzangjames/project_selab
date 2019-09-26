@@ -20,6 +20,10 @@ a {
 	margin: 0 auto;
 }
 
+.color{
+    color:yellow;
+}
+
 /*--------------------- Header ----------------------------*/
 
 header {
@@ -27,7 +31,29 @@ header {
     background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)), url(../img/background1.jpg);
     background-position: center;
     background-size:cover;
+    color:#fff;
 }
+
+
+.header-title {
+    display: inline-block;
+    font-size: 150px;
+    margin-top: 250px;
+}
+
+.long-copy {
+    float:right;
+    margin-top: 200px;
+    font-size: 30px;
+    line-height: 1.5em;
+}
+
+.copy {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+/*--------------------- nav -------------------------------*/
 
 .logo {
     float:left;
