@@ -8,11 +8,16 @@ body {
     font-family: 'Open+sans';
     font-size: 20px;
     font-weight: 200;
+    letter-spacing: 1px;
 }
 
 a {
 	text-decoration: none;
 	color: #fff;
+}
+
+ul {
+    list-style: none;
 }
 
 .row {
@@ -23,6 +28,11 @@ a {
 .color{
     color:yellow;
 }
+
+#none {
+    display: none;
+}
+
 
 /*--------------------- Header ----------------------------*/
 
@@ -35,7 +45,8 @@ header {
 }
 
 
-.header-title {
+/* header1 */
+.header1 h2 {
     display: inline-block;
     font-size: 150px;
     margin-top: 250px;
@@ -53,6 +64,31 @@ header {
     font-size: 25px;
 }
 
+/* header2 */
+.header2 h2 {
+    display: inline-block;
+    font-size : 100px;
+    margin-top: 150px;
+}
+
+.header2 ul{
+    margin-top : 50px;
+}
+
+.header2 ul li{
+    line-height: 1.75em;
+    font-weight: 300;
+    font-size : 25px;
+}
+
+/* header3 */
+.header3 h2{
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    font-size: 50px;
+}
+
 /*--------------------- nav -------------------------------*/
 
 .logo {
@@ -60,11 +96,11 @@ header {
     margin-top:30px;
     display: inline-block;
     color: #fff;
-    margin-left: 200px;
+    margin-left: 10%;
 }
 
 .login {
-    padding-top:2px;
+    padding-top: 2px;
     margin-left: 100px;
 }
 
@@ -81,6 +117,7 @@ header {
 }
 
 nav{
+    position: relative;
     height : 10vh;
     background-color: #000;
 }
