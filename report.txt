@@ -1,15 +1,30 @@
+<@@ 하기로 한 것은 -, 건의사항은 ~ 로 표기>
+
+*(참고)git 레포 https://github.com/minkwns/project_selab.git
+부산국제영화제 http://www.biff.kr/kor/  
+
 ***9월 25일(수) 회의록 
-
-@@ 해낸 것은 -, 건의사항은 ~ 로 표기
-
-- git 레포 https://github.com/minkwns/project_selab.git
-부산국제영화제 http://www.biff.kr/kor/    
-
+ 
 (frontend)
--부트스트랩 , 부트스니프 지양하는 걸로 
+-부트스트랩 , 부트스니프 지양.
 -notice와 교수님 소개와 research 는 메인화면에 /  
 -black & white 로 색깔 통일
 -yellow로 포인트 주기
 ~selab 로고 각자 생각해보기 
 (backend)
 -회원가입 로그인 구현 (db 맞춰서)
+
+(공통)
+없음.
+
+***10월 3일(목) 회의록
+(frontend)
+-index.html(메인화면)에 교수님 소개와 research 구현
+-login창과 register창 구현
+(backend)
+-10월 4일까지 로그인을 구현하는 걸로 함
+-다음주까지 DB 설계
+
+(공통)
+~10월말 11월초 (중간고사 기간)까지는 예전 홈페이지를 구현하는 것까지 하는 것을 목표
+~JS 스터디도 진행
