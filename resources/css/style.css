@@ -168,6 +168,7 @@ nav a:active{
 }
 
 /*--------------------- professer  -------------------------------*/
+
 section {
     height: 100vh;
     padding : 120px;
@@ -183,16 +184,28 @@ section h3 {
 
 section img {
     float: left;
-    margin-left: 50px; 
+    margin-left: 100px; 
     margin-top: 50px;
-    width: 500px;
-    height: auto;
+    width: 300px;
+    height: 350px;
 }
 
 section p {
-    padding-left: 45%;
+    padding-left: 33%;
     padding-top : 75px;
     padding-bottom: 75px;
+}
+
+/*---------------------    footer  -------------------------------*/
+footer {
+    height : 20vh;
+    background-color: black;
+    color: white;
+    padding-top: 25px;
+}
+
+footer div{
+    padding-bottom : 10px;
 }
 
 /*--------------------- animations -------------------------------*/
