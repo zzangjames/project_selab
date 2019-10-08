@@ -171,22 +171,28 @@ nav a:active{
 section {
     height: 100vh;
     padding : 120px;
+    word-spacing: 5px;
+    letter-spacing: 2px;
 }
+
 
 section h3 {
     font-size : 100px;
+    margin: 20px;
 }
 
 section img {
     float: left;
+    margin-left: 50px; 
     margin-top: 50px;
     width: 500px;
     height: auto;
 }
 
 section p {
-    padding-left: 40%;
+    padding-left: 45%;
     padding-top : 75px;
+    padding-bottom: 75px;
 }
 
 /*--------------------- animations -------------------------------*/
