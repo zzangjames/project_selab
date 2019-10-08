@@ -1,16 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Login page</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" rel="text/css" href="css/loginstyle.css">
+        <title>login sheet</title>
     </head>
     <body>
-        <form action="/login", method="POST">
-            <p>Username : <input type="text" name = "name"></p>
-            <p>Password : <input  type="password" name="pwd"></p>
-            <input type="submit" value="Login">
-        </form>
-        <form action = "/register" method="GET">
-            <input type="submit" value="Register">
-        </form>
+        <header>
+            <div class="login-form">
+                <div class="login-wrap">
+                    <form action="/login", method="POST">
+                        <div id="login-tag">Login</div>
+                        <div class="group">
+                            <br><br><br><label>Username or Email</label><br>
+                            <input id="user" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <label>Password</label><br>
+                            <input id="pswd" type="password" class="input">
+                        </div>
+                        <div class="group">
+                            <input type="submit" class="button" value="LOGIN">
+                         </div>
+                        <div class="group">
+                            <form action = "/register" method="GET">
+                                <input type="submit" class="button_signup" value="REGISTER">
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>    
+        </header>
+       
+            
     </body>
 </html>
