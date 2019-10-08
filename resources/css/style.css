@@ -167,20 +167,46 @@ nav a:active{
 	transition: border-bottom 0.3s;
 }
 
+/*--------------------- professer  -------------------------------*/
+section {
+    height: 100vh;
+    padding : 120px;
+}
+
+section h3 {
+    font-size : 100px;
+}
+
+section img {
+    float: left;
+    margin-top: 50px;
+    width: 500px;
+    height: auto;
+}
+
+section p {
+    padding-left: 40%;
+    padding-top : 75px;
+}
+
 /*--------------------- animations -------------------------------*/
 
 @keyframes change-images {
     0%{
-        background-image: url(../img/background1.jpg); 
+        background-image: url(../img/background1.jpg);
+        background-attachment: fixed;
     }
     33.3%{
-        background-image: url(../img/background2.jpg); 
+        background-image: url(../img/background2.jpg);
+        background-attachment: fixed;
     }
     66.6%{
         background-image: url(../img/background3.jpg); 
+        background-attachment: fixed;
     }
     100%{
         background-image: url(../img/background1.jpg);
+        background-attachment: fixed;
     }
     
 }
