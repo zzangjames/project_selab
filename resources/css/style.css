@@ -167,46 +167,73 @@ nav a:active{
 	transition: border-bottom 0.3s;
 }
 
-/*--------------------- professer  -------------------------------*/
+/*--------------------- members  -------------------------------*/
 
 section {
-    height: 100vh;
-    padding : 120px;
-    word-spacing: 5px;
-    letter-spacing: 2px;
+    margin: 0 auto;
+    max-width: 1140px;
 }
 
-
-section h3 {
-    font-size : 100px;
-    margin: 20px;
+.member {
+    font-size: 15px;    
+    margin-bottom: 20px;
 }
 
-section img {
+.member h3 {
+    font-size: 50px;
+    margin-top: 30px;
+}
+
+.member > div {
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.member img {
     float: left;
-    margin-left: 100px; 
-    margin-top: 50px;
-    width: 300px;
-    height: 350px;
+    width: 15%;
+    height: auto;
 }
 
-section p {
-    padding-left: 33%;
-    padding-top : 75px;
-    padding-bottom: 75px;
+.info,
+.career {
+    padding-top: 30px;
+}
+
+.info {
+    float: left;
+    padding-left: 5%;
+}
+
+.info li{
+    padding-bottom: 5px;
+    list-style: circle;
+}
+
+.career {
+    float: right;
+    padding-right: 5%;
+}
+
+.info li:first-child{
+    padding-top: 2px;
+    font-weight: bold;
+}
+
+.career li:first-child{
+    font-weight: bold;
+    padding-bottom: 5px;
 }
 
 /*---------------------    footer  -------------------------------*/
 footer {
-    height : 20vh;
-    background-color: black;
-    color: white;
-    padding-top: 25px;
+    height : 10vh;
+    font-size: 12px;
+    background-color: #495057;
+    color: whitesmoke;
+    padding-top: 15px;
 }
 
-footer div{
-    padding-bottom : 10px;
-}
 
 /*--------------------- animations -------------------------------*/
 
