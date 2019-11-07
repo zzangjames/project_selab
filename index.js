@@ -30,6 +30,8 @@ connection.connect(function (err){
     console.log('Success DB connection');
 });
 
+var server = require('http').createServer(app);
+
 app.listen(3000, function (){
     console.log('Example app listening on port 3000!');
 });
@@ -40,7 +42,7 @@ app.get('/', function (req, res){
 });
 
 app.get('/login', function (req, res){
-    res.render('login.html');
+    res.render('login.html', {alert: false});
 });
 
 app.get('/register', function(req, res){
@@ -63,29 +65,49 @@ app.post('/', function(req, res){
     var sql = 'SELECT * FROM user_info WHERE username = ?';
     connection.query(sql, [name], function(error, results, fields){
         if(results.length == 0){
-            res.render('index.html');
+            res.render('login.html', {alert: true});
         } else{
             var db_pwd = results[0].password;
 
             if(pwd == db_pwd){
-                res.render('index.html');
+                res.redirect("/");
             } else{
-                res.render('login.html');
+                res.render('login.html', {alert: true});
             }
         }
     })
 })
 
-app.post('/login', function(req, res){
+
+// app.post('/login', function(req, res){
+//     var name = req.body.name;
+//     var pwd = req.body.pwd;
+//     var pwdconf = req.body.pwdconf;
+
+//      var sql = "SELECT * FROM user_info WHERE username = ?";
+//      connection.query(sql, [name, pwd], function(error, data, fields){
+//         connection.query("INSERT INTO user_info VALUES(?,?)", [name, pwd], function(){
+//             //console.log(data);
+//             res.redirect('/login');
+//         });
+
+
+app.post('/register', function(req, res){
     var name = req.body.name;
     var pwd = req.body.pwd;
     var pwdconf = req.body.pwdconf;
-
-     var sql = "SELECT * FROM user_info WHERE username = ?";
-     connection.query(sql, [name, pwd], function(error, data, fields){
-        connection.query("INSERT INTO user_info VALUES(?,?)", [name, pwd], function(){
-            //console.log(data);
-            res.redirect('/login');
-        });
+    console.log(name, pwd);
+    var sql = 'SELECT * FROM user_info WHERE username = ?';
+    connection.query(sql, [name,pwd], function(error, data, fileds){
+        if(data.length == 0){
+            connection.query("INSERT INTO user_info VALUES(?,?)",[name,pwd],function(){
+                console.log(data);
+                res.redirect('/');
+            })
+        }
+        else{
+            console.log("존재");
+            res.render("register.html",{alert: true});
+        }
     });
 });
