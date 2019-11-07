@@ -1,7 +1,6 @@
 *{
 	margin: 0;
 	padding: 0;
-	box-sizing:border-box;
 }
 
 body {
@@ -9,6 +8,7 @@ body {
     font-size: 20px;
     font-weight: 200;
     letter-spacing: 1px;
+    background-color: #f2f2f2; 
 }
 
 a {
@@ -167,45 +167,115 @@ nav a:active{
 	transition: border-bottom 0.3s;
 }
 
-/*--------------------- professer  -------------------------------*/
-
-section {
-    height: 100vh;
-    padding : 120px;
-    word-spacing: 5px;
-    letter-spacing: 2px;
-}
-
-
-section h3 {
-    font-size : 100px;
-    margin: 20px;
-}
-
-section img {
-    float: left;
-    margin-left: 100px; 
-    margin-top: 50px;
-    width: 300px;
-    height: 350px;
-}
-
-section p {
-    padding-left: 33%;
-    padding-top : 75px;
-    padding-bottom: 75px;
-}
-
 /*---------------------    footer  -------------------------------*/
 footer {
-    height : 20vh;
-    background-color: black;
-    color: white;
-    padding-top: 25px;
+    height : 10vh;
+    font-size: 12px;
+    background-color: #495057;
+    color: whitesmoke;
+    padding-top: 15px;
 }
 
-footer div{
-    padding-bottom : 10px;
+/*--------------------- members  -------------------------------*/
+
+section {
+    margin: 20px auto;
+    max-width: 1140px;
+}
+
+/* 인물있는곳에 배경색을 칠할까말까 */
+
+.member {
+    background-color: white; 
+    font-size: 15px;    
+    margin-bottom: 20px;
+    padding: 3%;
+}
+
+.member h3 {
+    font-size: 50px;
+}
+
+.member > div {
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.member img {
+    float: left;
+    width: 15%;
+    height: auto;
+}
+
+.info,
+.career {
+    padding-top: 30px;
+}
+
+.info {
+    float: left;
+    padding-left: 5%;
+}
+
+.info li{
+    padding-bottom: 5px;
+    list-style: circle;
+}
+
+.career {
+    float: right;
+    padding-right: 5%;
+}
+
+.info li:first-child{
+    padding-top: 2px;
+    font-weight: bold;
+}
+
+.career li:first-child{
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+/*--------------------- research  -------------------------------*/
+
+.research {
+    background-color: white; 
+    overflow: hidden;
+    display: inline-block;
+    width: 25%;
+    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.2);
+    text-align: center;
+    margin-left: 6%;
+    margin-top: 20px;
+    height: 510px;
+}
+
+.research h3{
+    text-align: left;
+    height: 55px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 10px;
+}
+
+.research:first-child h3{
+    height: 45px;
+    padding-top: 24px;
+    padding-bottom: 0px;
+}
+
+.research img{
+    width: 96%;
+}
+
+.research ul {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: left;
+    font-size: 15px;
+    list-style: circle;
 }
 
 /*--------------------- animations -------------------------------*/
