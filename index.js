@@ -57,6 +57,10 @@ app.get('/research', function(req, res){
    res.render('research.html'); 
 });
 
+app.get('/notice', function (req, res){
+    res.render('notice.html');
+});
+
 // post html
 app.post('/', function(req, res){
     var id = req.body.id;
