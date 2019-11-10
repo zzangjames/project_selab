@@ -38,27 +38,27 @@ app.listen(3000, function (){
 
 // get html(rendering)
 app.get('/', function (req, res){
-    res.render('index.html');
+    res.render('index.ejs');
 });
 
 app.get('/login', function (req, res){
-    res.render('login.html', {alert: false});
+    res.render('login.ejs', {alert: false});
 });
 
 app.get('/register', function(req, res){
-   res.render('register.html'); 
+   res.render('register.ejs'); 
 });
 
 app.get('/members', function(req, res){
-   res.render('members.html'); 
+   res.render('members.ejs'); 
 });
 
 app.get('/research', function(req, res){
-   res.render('research.html'); 
+   res.render('research.ejs'); 
 });
 
 app.get('/notice', function (req, res){
-    res.render('notice.html');
+    res.render('notice.ejs');
 });
 
 // post html
@@ -69,14 +69,14 @@ app.post('/', function(req, res){
     var sql = 'SELECT * FROM user_info WHERE username = ?';
     connection.query(sql, [id], function(error, results, fields){
         if(results.length == 0){
-            res.render('login.html', {alert: true});
+            res.render('login.ejs', {alert: true});
         } else{
             var db_pwd = results[0].password;
 
             if(pwd == db_pwd){
                 res.redirect("/");
             } else{
-                res.render('login.html', {alert: true});
+                res.render('login.ejs', {alert: true});
             }
         }
     })
@@ -97,7 +97,7 @@ app.post('/register', function(req, res){
         }
         else{
             console.log("존재");
-            res.render("register.html",{alert: true});
+            res.render("register.ejs",{alert: true});
         }
     });
 });
