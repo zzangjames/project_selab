@@ -53,13 +53,13 @@ app.get('/', function (req, res){
         //console.log(req.session.user.logined, req.session.user.id);
         res.render('index.ejs', {
             logined : req.session.user.logined,
-            id : req.session.user.id
+            username : req.session.user.username
         });
     }
     else {
         res.render('index.ejs', {
             logined : false,
-            id : " "
+            username : " "
         });
     }
 });
@@ -78,13 +78,13 @@ app.get('/members', function(req, res){
         //console.log(req.session.user.logined, req.session.user.id);
         res.render('members.ejs', {
             logined : req.session.user.logined,
-            id : req.session.user.id
+            username : req.session.user.username
         });
     }
     else {
         res.render('members.ejs', {
             logined : false,
-            id : " "
+            username : " "
         });
     }
 });
@@ -95,80 +95,85 @@ app.get('/research', function(req, res){
         //console.log(req.session.user.logined, req.session.user.id);
         res.render('research.ejs', {
             logined : req.session.user.logined,
-            id : req.session.user.id
+            username : req.session.user.username
         });
     }
     else {
         res.render('research.ejs', {
             logined : false,
-            id : " "
+            username : " "
         });
     }
 });
 
 app.get('/notice', function (req, res){
-    //console.log(req.session.user);
     if (req.session.user) {
-        //console.log(req.session.user.logined, req.session.user.id);
         res.render('notice.ejs', {
             logined : req.session.user.logined,
-            id : req.session.user.id
+            username : req.session.user.username
         });
     }
     else {
         res.render('notice.ejs', {
             logined : false,
-            id : " "
+            username : " "
         });
     }
 });
 
 // post html
 app.post('/', function(req, res){
-    var id = req.body.id;
-    var pwd = req.body.pwd;
+    var userID = req.body.userID;
+    var userPassword = req.body.userPassword;
     
-    var sql = 'SELECT * FROM user_info WHERE username = ?';
-    connection.query(sql, [id], function(error, results, fields){
+    var sql = 'SELECT * FROM user_info WHERE userId = ?';
+    connection.query(sql, [userID], function(error, results, fields){
         if(results.length == 0){
             res.render('login.ejs', {alert: true});
         } else{
-            var db_pwd = results[0].password;
+            var db_pwd = results[0].userPassword;
 
-            if(pwd == db_pwd){
+            if(userPassword == db_pwd){
                 //session
                 req.session.user = {
                     logined : true,
-                    id : id
+                    username : results[0].username
                 }
                 res.render('index.ejs', {
                     logined : req.session.user.logined, 
-                    id : req.session.user.id
+                    username : req.session.user.username
                 });
-            } else{
+            } 
+            else{
                 res.render('login.ejs', {alert: true});
             }
         }
-    })
+    });
 })
 
 app.post('/register', function(req, res){
-    var id = req.body.id;
-    var pwd = req.body.pwd;
+    var username = req.body.username;
+    var studentID = req.body.studentID;
+    var userID = req.body.userID;
+    var userPassword = req.body.userPassword;
     var pwdconf = req.body.pwdconf;
-    console.log(id, pwd);
     
-    var sql = 'SELECT * FROM user_info WHERE username = ?';
-    connection.query(sql, [id,pwd], function(error, data, fileds){
-        if(data.length == 0){
-            connection.query("INSERT INTO user_info VALUES(?,?)",[id,pwd],function(){
-                console.log(data);
-                res.redirect('/');
-            })
-        }
-        else{
-            console.log("존재");
-            res.render("register.ejs",{alert: true});
-        }
-    });
+    // 학번, username 중복검사 || null 값 들어온 경우 || 비밀번호가 다른경우 
+    
+    if(userPassword !== pwdconf){
+        res.redirect('/register', {alert: true});
+    }
+    else {
+        var sql = 'SELECT * FROM user_info WHERE username = ?';
+        connection.query(sql, [username], function(error, results, fields){
+            if(results.length == 0){
+                connection.query("INSERT INTO user_info VALUES(?,?,?,?)", [username,studentID,userID,userPassword], function(){
+                    res.redirect('/login');
+                }); 
+            }
+            else{
+                res.render("register.ejs", {alert: true});
+            }
+        }); 
+    }
 });
