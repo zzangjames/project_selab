@@ -11,6 +11,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.static(__dirname + '/public'));
 
+var session = require('express-session');
+app.use(session({
+    secret: 'sid',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    }
+}));
+
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -38,27 +48,79 @@ app.listen(3000, function (){
 
 // get html(rendering)
 app.get('/', function (req, res){
-    res.render('index.ejs');
+    //console.log(req.session.user);
+    if (req.session.user) {
+        //console.log(req.session.user.logined, req.session.user.id);
+        res.render('index.ejs', {
+            logined : req.session.user.logined,
+            id : req.session.user.id
+        });
+    }
+    else {
+        res.render('index.ejs', {
+            logined : false,
+            id : " "
+        });
+    }
 });
 
 app.get('/login', function (req, res){
-    res.render('login.ejs', {alert: false});
+    res.render('login.ejs');
 });
 
 app.get('/register', function(req, res){
-   res.render('register.ejs'); 
+    res.render('register.ejs');
 });
 
 app.get('/members', function(req, res){
-   res.render('members.ejs'); 
+   //console.log(req.session.user);
+    if (req.session.user) {
+        //console.log(req.session.user.logined, req.session.user.id);
+        res.render('members.ejs', {
+            logined : req.session.user.logined,
+            id : req.session.user.id
+        });
+    }
+    else {
+        res.render('members.ejs', {
+            logined : false,
+            id : " "
+        });
+    }
 });
 
 app.get('/research', function(req, res){
-   res.render('research.ejs'); 
+   //console.log(req.session.user);
+    if (req.session.user) {
+        //console.log(req.session.user.logined, req.session.user.id);
+        res.render('research.ejs', {
+            logined : req.session.user.logined,
+            id : req.session.user.id
+        });
+    }
+    else {
+        res.render('research.ejs', {
+            logined : false,
+            id : " "
+        });
+    }
 });
 
 app.get('/notice', function (req, res){
-    res.render('notice.ejs');
+    //console.log(req.session.user);
+    if (req.session.user) {
+        //console.log(req.session.user.logined, req.session.user.id);
+        res.render('notice.ejs', {
+            logined : req.session.user.logined,
+            id : req.session.user.id
+        });
+    }
+    else {
+        res.render('notice.ejs', {
+            logined : false,
+            id : " "
+        });
+    }
 });
 
 // post html
@@ -74,7 +136,15 @@ app.post('/', function(req, res){
             var db_pwd = results[0].password;
 
             if(pwd == db_pwd){
-                res.redirect("/");
+                //session
+                req.session.user = {
+                    logined : true,
+                    id : id
+                }
+                res.render('index.ejs', {
+                    logined : req.session.user.logined, 
+                    id : req.session.user.id
+                });
             } else{
                 res.render('login.ejs', {alert: true});
             }
@@ -87,6 +157,7 @@ app.post('/register', function(req, res){
     var pwd = req.body.pwd;
     var pwdconf = req.body.pwdconf;
     console.log(id, pwd);
+    
     var sql = 'SELECT * FROM user_info WHERE username = ?';
     connection.query(sql, [id,pwd], function(error, data, fileds){
         if(data.length == 0){
