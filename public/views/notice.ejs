@@ -15,7 +15,7 @@
                 <a href="#">publications</a>
                 <a href="#">courses</a>
                 <% if(logined) { %>
-                    <a class="login"><%= username %> 님</a>
+                    <a class="login"><%= user_name %> 님</a>
                 <% } else { %>
                     <a href="login" class="login">login</a>
                 <% } %>   
@@ -33,27 +33,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <% data.foreach(function(row){ %>
                     <tr>
-                        <td>1</td>
-                        <td>연구원 모집</td>
-                        <td>Scott-Lee</td>
-                        <td>2018-11-11</td>
-                        <td>56</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Welcome to SELab Homepage!</td>
-                        <td>Scott-Lee</td>
-                        <td>29 Apr 2014</td>
-                        <td>32</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2014 PL-SE First Joint Workshop</td>
-                        <td>Scott-Lee</td>
-                        <td>29 Apr 2014</td>
-                        <td>1234</td>
-                    </tr>
+                        <td><%= row.notice_id %></td>
+                        <td><%= row.title %></td>
+                        <td><%= row.writer_name %></td>
+                        <td><%= row.date %></td>
+                        <td><%= row.view %></td>
+                    </tr> 
+                    <% }) %>
                 </tbody>
             </table>
         </section>    
