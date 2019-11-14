@@ -113,7 +113,7 @@ app.get('/notice', function (req, res){
             res.render('notice.ejs', {
                 logined : req.session.user.logined,
                 user_name : req.session.user.user_name,
-                results
+                results 
             });
         }
         else {
@@ -123,7 +123,7 @@ app.get('/notice', function (req, res){
                 results
             });
         }
-        console.log(results); 
+        //console.log(results); 
     });
 });
 
@@ -140,25 +140,43 @@ app.get('/notice_insert', function (req, res){
 });
 
 app.get('/notice/:notice_id', function (req, res) {
+
     //db연동해서 id값에 따른 텍스트 보여주기
-    
-    if (req.session.user) {
-        res.render('notice_id.ejs', {
-            logined: req.session.user.logined,
-            user_name: req.session.user.user_name
-        });
-    } 
-    else {
-        res.render('notice_id.ejs', {
-            logined: false,
-            user_name: " ",
-        })
-    }
+    var notice_id = req.url.split("/")[2];
+
+    connection.query('UPDATE notice SET view = view + 1 WHERE notice_id = ?', [notice_id]);
+
+    var sql = 'SELECT * FROM notice WHERE notice_id = ?';
+    connection.query(sql, [notice_id], function(error, results, fields){
+        console.log(results);
+        if (req.session.user) {
+            res.render('notice_id.ejs', {
+                logined: req.session.user.logined,
+                user_name: req.session.user.user_name,
+                results
+            });
+        } 
+        else {
+            res.render('notice_id.ejs', {
+                logined: false,
+                user_name: " ",
+                results
+            })
+        }
+    })
 });
 
 // post html
 app.post('/notice_insert', function(req, res){
    //db 연동 
+    var title = req.body.title;
+    var content = req.body.content;
+    var writer_name = req.session.user.user_name;
+    
+    var sql = 'INSERT INTO notice(title, content, writer_name) VALUES (?,?,?)';
+    connection.query(sql, [title, content, writer_name], function(error, results, fields){
+        res.redirect('/notice');
+    });
 });
 
 app.post('/', function(req, res){
