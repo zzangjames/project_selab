@@ -33,20 +33,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%  results.forEach(function(row){
+                    <%  results.reverse().forEach(function(row){
                         var date = JSON.stringify(row.date);
                         date = date.substring(1,11).split("-");
                     %>
                     <tr>
                         <td><%= row.notice_id %></td>
-                        <td><%= row.title %></td>
+                        <td><a href="notice/<%= row.notice_id %>"><%= row.title %></a></td>
                         <td><%= row.writer_name %></td>
-                        <td><%= `${date[0]}:${date[1]}:${date[2]}` %></td>
+                        <td><%= `${date[0]}/${date[1]}/${date[2]}` %></td>
                         <td><%= row.view %></td>
-                    </tr> 
+                    </tr>
                     <% }) %>
                 </tbody>
             </table>
+            <a href="notice_insert"><button>글쓰기</button></a>
         </section>    
     </body>
 </html>
