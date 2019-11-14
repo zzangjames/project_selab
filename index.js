@@ -157,7 +157,7 @@ app.get('/notice/:notice_id', function (req, res) {
 
 // post html
 app.post('/notice_insert', function(req, res){
-   //db 연동 
+   //db 연동
 });
 
 app.post('/', function(req, res){

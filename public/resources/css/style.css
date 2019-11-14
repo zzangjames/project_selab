@@ -298,7 +298,6 @@ section {
 table {
     width: 100%;
     border-collapse: collapse;
-    overflow: scroll;
 }
 
 tr {
