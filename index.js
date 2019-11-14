@@ -122,7 +122,8 @@ app.get('/notice', function (req, res){
                 user_name : " ",
                 results
             });
-        } 
+        }
+        console.log(results); 
     });
 });
 
@@ -155,20 +156,6 @@ app.post('/', function(req, res){
         }
     });
 })
-
-
-// app.post('/login', function(req, res){
-//     var name = req.body.name;
-//     var pwd = req.body.pwd;
-//     var pwdconf = req.body.pwdconf;
-
-//      var sql = "SELECT * FROM user_info WHERE username = ?";
-//      connection.query(sql, [name, pwd], function(error, data, fields){
-//         connection.query("INSERT INTO user_info VALUES(?,?)", [name, pwd], function(){
-//             //console.log(data);
-//             res.redirect('/login');
-//         });
-
 
 app.post('/register', function(req, res){
     var user_name = req.body.user_name;
