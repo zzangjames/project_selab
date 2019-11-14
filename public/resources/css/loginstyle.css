@@ -71,7 +71,7 @@ form div p {
     font-size: 25px;
 }
 
-input[type=text],
+input[type=text],input[type=email],
 input[type=password]{
     display:inline-block;
     border: none;

@@ -69,7 +69,7 @@ app.get('/login', function (req, res){
 });
 
 app.get('/register', function(req, res){
-    res.render('register.ejs');
+    res.render('register.ejs', {alert: false});
 });
 
 app.get('/members', function(req, res){
@@ -122,7 +122,8 @@ app.get('/notice', function (req, res){
                 user_name : " ",
                 results
             });
-        } 
+        }
+        console.log(results); 
     });
 });
 
@@ -199,7 +200,7 @@ app.post('/register', function(req, res){
     // 학번, username 중복검사 || null 값 들어온 경우 || 비밀번호가 다른경우 
     
     if(user_password !== pwdconf){
-        res.redirect('/register', {alert: true});
+        res.redirect('/register');
     }
     else {
         var sql = 'SELECT * FROM user_info WHERE user_name = ?';
