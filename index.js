@@ -107,28 +107,23 @@ app.get('/research', function(req, res){
 });
 
 app.get('/notice', function (req, res){
-    var data;
-    var sql = 'select * from notice';
+    var sql = 'SELECT * FROM notice';
     connection.query(sql, function(error, results, fields){
-        data = results;
+        if (req.session.user) {
+            res.render('notice.ejs', {
+                logined : req.session.user.logined,
+                user_name : req.session.user.user_name,
+                results
+            });
+        }
+        else {
+            res.render('notice.ejs', {
+                logined : false,
+                user_name : " ",
+                results
+            });
+        } 
     });
-    
-    console.log(data);
-    
-    if (req.session.user) {
-        res.render('notice.ejs', {
-            logined : req.session.user.logined,
-            user_name : req.session.user.user_name,
-            data
-        });
-    }
-    else {
-        res.render('notice.ejs', {
-            logined : false,
-            user_name : " ",
-            data
-        });
-    }
 });
 
 // post html
