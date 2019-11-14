@@ -127,7 +127,40 @@ app.get('/notice', function (req, res){
     });
 });
 
+app.get('/notice_insert', function (req, res){
+    if (req.session.user) {
+        res.render('notice_insert.ejs', {
+            logined : req.session.user.logined,
+            user_name : req.session.user.user_name
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/notice/:notice_id', function (req, res) {
+    //db연동해서 id값에 따른 텍스트 보여주기
+    
+    if (req.session.user) {
+        res.render('notice_id.ejs', {
+            logined: req.session.user.logined,
+            user_name: req.session.user.user_name
+        });
+    } 
+    else {
+        res.render('notice_id.ejs', {
+            logined: false,
+            user_name: " ",
+        })
+    }
+});
+
 // post html
+app.post('/notice_insert', function(req, res){
+   //db 연동 
+});
+
 app.post('/', function(req, res){
     var user_id = req.body.user_id;
     var user_password = req.body.user_password;
