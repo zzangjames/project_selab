@@ -295,28 +295,28 @@ section {
     border-top: 2px solid black;
 }
 
-table {
+.notice table {
     width: 100%;
     border-collapse: collapse;
 }
 
-tr {
+.notice tr {
     border-top: 1px solid rgba(0,0,0,0.5);
 }
 
-th {
+.notice th {
     padding: 20px 0;
 }
 
-td {
+.notice td {
     padding: 15px 0;
 }
 
-tbody td {
+.notice tbody td {
     text-align: center;
 }
 
-tbody td:nth-child(2){
+.notice tbody td:nth-child(2){
     width: 50%;
     text-align: left;
     padding-left: 2%; 
@@ -360,6 +360,27 @@ tbody td:nth-child(2){
     background-color: black; 
 }
 
+/*--------------------- notice_id  -------------------------------*/
+.notice_id {
+    height: 75vh;
+    border-top: 2px solid black;
+}
+
+.notice_id h3 {
+    display: inline-block;
+}
+
+.notice_id button {
+    float: right;
+}
+
+.notice_id .comment {
+    width: 70%;
+}
+
+.notice_id .reply {
+    
+}
 /*--------------------- animations -------------------------------*/
 
 @keyframes change-images {

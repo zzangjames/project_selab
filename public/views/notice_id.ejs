@@ -29,6 +29,25 @@
             <p>
                 <%= results[0].content %>
             </p>
+            <hr>
+            <div>
+                <h3>title</h3>
+                date
+                <button>답글</button>
+                <p>text</p>
+            </div>
+            <form>
+                <input class="none reply" type="text"><br>
+                <input class="comment" type="text">
+            </form>
         </section>
+        <script>
+            var input = document.querySelector('.none');
+            var button = document.querySelector('button');
+            button.addEventListener("click", function(event){
+              input.classList.toggle('none');  
+            });
+            
+        </script>
     </body>
 </html>
