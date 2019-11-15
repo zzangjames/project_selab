@@ -16,6 +16,12 @@ body {
     color: white;
 }
 
+input:focus,
+textarea:focus,
+button:focus{
+    outline:none;
+}
+
 header {
     padding: 120px 0;
     background-attachment: fixed;
@@ -65,7 +71,7 @@ form div p {
     font-size: 25px;
 }
 
-input[type=text],
+input[type=text],input[type=email],
 input[type=password]{
     display:inline-block;
     border: none;

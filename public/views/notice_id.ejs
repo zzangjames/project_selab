@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" rel="text/css" href="../resources/css/style.css">
+        <title>login sheet</title>
+    </head>
+    <body>
+        <nav>
+            <h1 class="logo"><a href="/">LAB(<span class="color">SE</span>);</a></h1>
+            <div>
+                <a href="/notice">notice</a>
+                <a href="/members">members</a>
+                <a href="/research">research</a>
+                <a href="#">publications</a>
+                <a href="#">courses</a>
+                <% if(logined) { %>
+                    <a class="login"><%= user_name %> 님</a>
+                <% } else { %>
+                    <a href="login" class="login">login</a>
+                <% } %>   
+            </div>
+        </nav>
+        <section class="notice_id">
+            <h2><%= results[0].title %></h2>
+            <p>
+                <%= `${results[0].date} , ${results[0].writer_name}` %>
+            </p>
+            <p>
+                <%= results[0].content %>
+            </p>
+            <hr>
+            <div>
+                <h3>title</h3>
+                date
+                <button>답글</button>
+                <p>text</p>
+            </div>
+            <form>
+                <input class="none reply" type="text"><br>
+                <input class="comment" type="text">
+            </form>
+        </section>
+        <script>
+            var input = document.querySelector('.none');
+            var button = document.querySelector('button');
+            button.addEventListener("click", function(event){
+              input.classList.toggle('none');  
+            });
+            
+        </script>
+    </body>
+</html>
