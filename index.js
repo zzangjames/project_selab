@@ -26,7 +26,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    post: 3000,
+    port: 3000,
     password: '',
     database: 'selab'
 });

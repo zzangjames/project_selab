@@ -8,18 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zzangjames/project_selab.git"
+    "url": "git+https://github.com/minkwns/project_selab.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zzangjames/project_selab/issues"
+    "url": "https://github.com/minkwns/project_selab/issues"
   },
-  "homepage": "https://github.com/zzangjames/project_selab#readme",
+  "homepage": "https://github.com/minkwns/project_selab#readme",
   "dependencies": {
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mysql": "^2.17.1"
   }
 }
