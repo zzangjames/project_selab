@@ -65,7 +65,7 @@ app.get('/', function (req, res){
 });
 
 app.get('/login', function (req, res){
-    res.render('login.ejs');
+    res.render('login.ejs', {data:true});
 });
 
 app.get('/register', function(req, res){
@@ -233,4 +233,17 @@ app.post('/register', function(req, res){
             }
         }); 
     }
+});
+
+app.get('/score', function(req, res){
+    if(req.session.user){
+        res.render('score.ejs');
+    }
+    else{
+        res.render('login.ejs', {data:false});
+    }
+});
+
+app.post('/score', function(req, res){
+    res.render('score.ejs');
 });
