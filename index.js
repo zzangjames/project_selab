@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require ('path');
+var XLSX = require('xlsx');
 
 app.set('views', __dirname + '/public/views');
 app.set('view engine', 'ejs');
@@ -20,6 +21,15 @@ app.use(session({
         maxAge: 1000 * 60 * 60
     }
 }));
+
+//엑셀파일 읽어오기
+var workbook = XLSX.readFile('a.xlsx');
+var sheet_name_list = workbook.SheetNames;
+
+//엑셀파일 json파일 형태로 변환
+var scores = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+
 
 var mysql = require('mysql');
 
@@ -46,6 +56,20 @@ app.listen(3000, function (){
     console.log('Example app listening on port 3000!');
 });
 
+//엑셀 데이터를 데이터베이스에 넣기
+for(var i=0; i<scores.length; i++){
+    var idnumber = scores[i]["idnumber"];
+    var score = scores[i]["score"];
+    var rank = scores[i]["rank"];
+
+
+    var sql = 'SELECT * form score';
+    connection.query(sql, function(error, results, fields){
+        connection.query("INSERT INTO score VALUES(?,?,?)", [idnumber,score,rank], function(){
+        }); 
+    }); 
+}
+
 // get html(rendering)
 app.get('/', function (req, res){
     //console.log(req.session.user);
@@ -65,7 +89,7 @@ app.get('/', function (req, res){
 });
 
 app.get('/login', function (req, res){
-    res.render('login.ejs');
+    res.render('login.ejs', {data:true});
 });
 
 app.get('/register', function(req, res){
@@ -234,3 +258,34 @@ app.post('/register', function(req, res){
         }); 
     }
 });
+
+app.get('/score', function(req, res){
+    if(req.session.user){
+        res.render('score.ejs', {data:false});
+    }
+    else{
+        res.render('login.ejs', );
+    }
+});
+
+app.post('/score', function(req, res){
+    var idnum = req.body.IDnumber;
+    var sql = 'SELECT * FROM score WHERE idnumber = ?';
+    console.log(idnum);
+    connection.query(sql, [idnum], function(error, results, fields){
+        var score = results[0].score;
+        var rank = results[0].rank;
+    });
+    res.redirect('/score/:data');
+
+
+});
+
+app.get('/score/:data', function(req,res){
+    res.render('score.ejs', {
+        data:true,
+        score: score,
+        rank : rank,
+        
+    });
+})
