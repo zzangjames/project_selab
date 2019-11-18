@@ -29,8 +29,6 @@ var sheet_name_list = workbook.SheetNames;
 //엑셀파일 json파일 형태로 변환
 var scores = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
-
-
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -62,8 +60,7 @@ for(var i=0; i<scores.length; i++){
     var score = scores[i]["score"];
     var rank = scores[i]["rank"];
 
-
-    var sql = 'SELECT * from score';
+    var sql = 'SELECT * form score';
     connection.query(sql, function(error, results, fields){
         connection.query("INSERT INTO score VALUES(?,?,?)", [studentid,score,rank], function(){
         }); 
