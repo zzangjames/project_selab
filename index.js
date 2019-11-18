@@ -23,7 +23,7 @@ app.use(session({
 }));
 
 //엑셀파일 읽어오기
-var workbook = XLSX.readFile('a.xlsx');
+var workbook = XLSX.readFile(__dirname + '/public/resources/score.xlsx');
 var sheet_name_list = workbook.SheetNames;
 
 //엑셀파일 json파일 형태로 변환
@@ -58,14 +58,14 @@ app.listen(3000, function (){
 
 //엑셀 데이터를 데이터베이스에 넣기
 for(var i=0; i<scores.length; i++){
-    var idnumber = scores[i]["idnumber"];
+    var studentid = scores[i]["studentid"];
     var score = scores[i]["score"];
     var rank = scores[i]["rank"];
 
 
-    var sql = 'SELECT * form score';
+    var sql = 'SELECT * from score';
     connection.query(sql, function(error, results, fields){
-        connection.query("INSERT INTO score VALUES(?,?,?)", [idnumber,score,rank], function(){
+        connection.query("INSERT INTO score VALUES(?,?,?)", [studentid,score,rank], function(){
         }); 
     }); 
 }
@@ -190,6 +190,18 @@ app.get('/notice/:notice_id', function (req, res) {
     })
 });
 
+var score;
+var rank;
+
+app.get('/score/:data', function(req,res){
+    res.render('score.ejs', {
+        data:true,
+        score: score,
+        rank : rank,
+        wrongdata: false
+    });
+});
+
 // post html
 app.post('/notice_insert', function(req, res){
    //db 연동 
@@ -263,7 +275,7 @@ app.get('/score', function(req, res){
     if(req.session.user){
         res.render('score.ejs', {
             data:false,
-            param: false
+            wrongdata: false
         });
     }
     else{
@@ -271,18 +283,14 @@ app.get('/score', function(req, res){
     }
 });
 
-var param = true;
-
-var score;
-var rank;
 
 app.post('/score', function(req, res){
-    var idnum = req.body.IDnumber;
-    var sql = 'SELECT * FROM score WHERE idnumber = ?';
+    var idnum = req.body.studentid;
+    var sql = 'SELECT * FROM score WHERE studentid = ?';
     var length;
     connection.query(sql, [idnum], function(error, results, fields){
         if(error){
-            console.log("Error");
+            console.log(error);
         }    
         else{
             if(results.length>0){
@@ -293,7 +301,7 @@ app.post('/score', function(req, res){
             if(length == null){
                 res.render('score.ejs', {
                     data:false,
-                    param : true
+                    wrongdata : true
                 });
             }
             else{
@@ -304,11 +312,4 @@ app.post('/score', function(req, res){
 
 });
 
-app.get('/score/:data', function(req,res){
-    res.render('score.ejs', {
-        data:true,
-        score: score,
-        rank : rank,
-        param: false
-    });
-});
+
