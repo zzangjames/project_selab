@@ -261,23 +261,46 @@ app.post('/register', function(req, res){
 
 app.get('/score', function(req, res){
     if(req.session.user){
-        res.render('score.ejs', {data:false});
+        res.render('score.ejs', {
+            data:false,
+            param: false
+        });
     }
     else{
         res.render('login.ejs', );
     }
 });
 
+var param = true;
+
+var score;
+var rank;
+
 app.post('/score', function(req, res){
     var idnum = req.body.IDnumber;
     var sql = 'SELECT * FROM score WHERE idnumber = ?';
-    console.log(idnum);
+    var length;
     connection.query(sql, [idnum], function(error, results, fields){
-        var score = results[0].score;
-        var rank = results[0].rank;
+        if(error){
+            console.log("Error");
+        }    
+        else{
+            if(results.length>0){
+                score = results[0].score;
+                rank = results[0].rank;
+                length = results.length;
+            }
+            if(length == null){
+                res.render('score.ejs', {
+                    data:false,
+                    param : true
+                });
+            }
+            else{
+                res.redirect('/score/:data');
+            }
+        }
     });
-    res.redirect('/score/:data');
-
 
 });
 
@@ -286,6 +309,6 @@ app.get('/score/:data', function(req,res){
         data:true,
         score: score,
         rank : rank,
-        
+        param: false
     });
-})
+});
