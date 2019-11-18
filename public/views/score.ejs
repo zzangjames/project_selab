@@ -1,0 +1,32 @@
+<html>
+<head>
+
+
+    <title>Check Score</title>
+</head>
+
+<body>
+    <form action="/score" method="POST">
+        <div>
+        <p>Writing your ID Number</p>
+        <input type="text" name="IDnumber" placeholder="2018xxxxxx"  required>
+        </div>
+        <input type="submit">
+    </form>
+
+    <%if(data){ %>
+        <div>
+            <span>당신의 점수는 <%=score %>점이며 등수는 <%=rank %>등 입니다.</span>
+        </div>
+        <% } %>
+
+    <% if(param) { %>
+        <div>
+            <span>올바른 학번을 다시 입력해주세요.</span>
+        </div>
+        <% } %>
+
+    
+
+</body>
+</html>
