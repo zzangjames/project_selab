@@ -181,22 +181,14 @@ app.get('/notice/:notice_id', function (req, res) {
 app.get('/score', function(req, res){
     if(req.session.user){
         res.render('score.ejs', {
-            data:false,
-            wrongdata: false
+            alert : false,
+            rank : null,
+            score : null
         });
     }
     else{
-        res.render('login.ejs', );
+        res.redirect('/login');
     }
-});
-
-app.get('/score/:data', function(req,res){
-    res.render('score.ejs', {
-        data:true,
-        score: score,
-        rank : rank,
-        wrongdata: false
-    });
 });
 
 // post html
@@ -266,31 +258,26 @@ app.post('/register', function(req, res){
 });
 
 app.post('/score', function(req, res){
-    var idnum = req.body.studentid;
+    var studentid = req.body.studentid;
     var sql = 'SELECT * FROM score WHERE studentid = ?';
-    var length;
-    connection.query(sql, [idnum], function(error, results, fields){
-        if(error){
-            console.log(error);
-        }    
-        else{
-            if(results.length>0){
+    connection.query(sql, [studentid], function(error, results, fields){
+            if(results.length > 0){
+                console.log(results);
                 score = results[0].score;
                 rank = results[0].rank;
-                length = results.length;
-            }
-            if(length == null){
                 res.render('score.ejs', {
-                    data:false,
-                    wrongdata : true
+                    alert : true,
+                    score,
+                    rank
                 });
             }
             else{
-                res.redirect('/score/:data');
+                res.render('score.ejs', {
+                    alert : false,
+                    score,
+                    rank
+                });
             }
-        }
+        
     });
-
 });
-
-
