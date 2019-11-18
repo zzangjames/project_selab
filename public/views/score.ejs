@@ -9,7 +9,7 @@
     <form action="/score" method="POST">
         <div>
         <p>Writing your ID Number</p>
-        <input type="text" name="IDnumber" placeholder="2018xxxxxx"  required>
+        <input type="text" name="studentid" placeholder="2018xxxxxx"  required>
         </div>
         <input type="submit">
     </form>
@@ -20,7 +20,7 @@
         </div>
         <% } %>
 
-    <% if(param) { %>
+    <% if(wrongdata) { %>
         <div>
             <span>올바른 학번을 다시 입력해주세요.</span>
         </div>
