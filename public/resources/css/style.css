@@ -291,8 +291,11 @@ section {
 
 /*---------------------   notice   -------------------------------*/
 .notice {
-    height: 75vh;
     border-top: 2px solid black;
+    background-color: white;
+    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.2);
+    padding : 3%;
+    padding-bottom: 7%;
 }
 
 .notice table {
@@ -301,7 +304,7 @@ section {
 }
 
 .notice tr {
-    border-top: 1px solid rgba(0,0,0,0.5);
+    border-top : 1px solid rgba(0,0,0,0.5);
 }
 
 .notice th {
@@ -322,10 +325,18 @@ section {
     padding-left: 2%; 
 }
 
+.notice tbody td:nth-child(2) a:hover{
+    color: gray;
+}
+
 .notice a button {
-    padding: 7px 10px;
+    float: right;
+    background: rgb(251, 228, 77); 
+    font-size: 14px;
+    padding: 6px 13px;
     border-radius: 30px;
-    float:right;
+    margin-top: 2%;
+    margin-right: 2%;
 }
 
 /*--------------------- notice_insert  -------------------------------*/
@@ -362,12 +373,35 @@ section {
 
 /*--------------------- notice_id  -------------------------------*/
 .notice_id {
-    height: 75vh;
-    border-top: 2px solid black;
+    background: white;
+    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.2);
+    padding : 3%;
 }
 
-.notice_id h3 {
-    display: inline-block;
+.notice_id h2 {
+    margin: 10px 0 30px 0;
+    margin-left: 3%;
+}
+
+.notice_id > p:nth-child(2) {
+    margin-left: 3%;
+}
+
+.notice_id > p:nth-child(2) span{
+    float: right;
+    margin-right: 3%;
+}
+
+.notice_id > p:nth-child(3) {
+    clear: right;
+    margin: 0 3%;
+    text-align: justify;
+    margin-top: 30px;
+}
+
+.notice_id div {
+    border : 1px solid;
+    margin: 20px auto;
 }
 
 .notice_id button {

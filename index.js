@@ -250,7 +250,7 @@ app.post('/register', function(req, res){
                     res.redirect('/login');
                 }); 
             }
-            else{
+            else{ 
                 res.render("register.ejs", {alert: true});
             }
         }); 

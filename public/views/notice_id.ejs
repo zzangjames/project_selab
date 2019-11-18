@@ -3,7 +3,7 @@
     <head>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" rel="text/css" href="../resources/css/style.css">
-        <title>login sheet</title>
+        <title>notice</title>
     </head>
     <body>
         <nav>
@@ -22,24 +22,26 @@
             </div>
         </nav>
         <section class="notice_id">
+            <% var date = JSON.stringify(results[0].date);
+               date = date.substring(1,11).split("-"); %>
             <h2><%= results[0].title %></h2>
             <p>
-                <%= `${results[0].date} , ${results[0].writer_name}` %>
+                <%= results[0].writer_name %>
+                <span><%= `${date[0]}/${date[1]}/${date[2]}` %></span>
             </p>
             <p>
                 <%= results[0].content %>
             </p>
-            <hr>
             <div>
                 <h3>title</h3>
                 date
                 <button>답글</button>
                 <p>text</p>
+                <form>
+                    <input class="none reply" type="text"><br>
+                    <input class="comment" type="text">
+                </form>
             </div>
-            <form>
-                <input class="none reply" type="text"><br>
-                <input class="comment" type="text">
-            </form>
         </section>
         <script>
             var input = document.querySelector('.none');
