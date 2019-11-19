@@ -385,11 +385,13 @@ section {
 
 .notice_id > p:nth-child(2) {
     margin-left: 3%;
+    font-weight: bold;
 }
 
 .notice_id > p:nth-child(2) span{
     float: right;
     margin-right: 3%;
+    color : gray;
 }
 
 .notice_id > p:nth-child(3) {
@@ -397,23 +399,74 @@ section {
     margin: 0 3%;
     text-align: justify;
     margin-top: 30px;
+    min-height: 500px;
 }
 
-.notice_id div {
-    border : 1px solid;
+.notice_id > div {
+    font-size: 15px;
+    border : 1px solid rgba(0, 0, 0, 0.5);
     margin: 20px auto;
+    padding: 3%;
+    border-radius: 5px; 
+}
+
+.notice_id h3 {
+    margin-bottom : 1%;
+}
+
+.notice_id .comment {
+    padding: 1%;
+    border-bottom : 1px solid darkgray;
+    width: 100%;
+}
+
+.notice_id .comment p{
+    margin-bottom: 3px;
+    max-width: 95%;
+    word-wrap: break-word;
+}
+
+.notice_id .comment p:first-child{
+    color: lightgray;
+    font-size: 12px;
+}
+
+.notice_id .comment p:first-child:first-line{
+    font-weight: bold;
+    color: black;
+    font-size: 17px;
 }
 
 .notice_id button {
     float: right;
 }
 
-.notice_id .comment {
-    width: 70%;
+.notice_id .write_comment {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid gray;
 }
 
-.notice_id .reply {
-    
+.notice_id .write_comment:focus{
+    border-bottom: 1px solid blue;
+    padding: 1%;
+}
+
+
+.notice_id input[type=submit]{
+    color: dodgerblue;
+    margin-top : 10px;
+    font-size: 13px;
+    text-align: center;
+    border: none;
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.notice_id input[type=submit]:hover{
+    background: darkgray;
 }
 /*--------------------- animations -------------------------------*/
 

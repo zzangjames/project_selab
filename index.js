@@ -33,7 +33,7 @@ app.use(session({
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    port: 3000,
+    post: 3000,
     password: '',
     database: 'selab'
 });

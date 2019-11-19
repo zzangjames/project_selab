@@ -33,13 +33,20 @@
                 <%= results[0].content %>
             </p>
             <div>
-                <h3>title</h3>
-                date
-                <button>답글</button>
-                <p>text</p>
+                <h3>댓글</h3>
+                <% for(var i=0; i<5; i++){ %>
+                <div class="comment">
+                    <p>
+                        최준호<br> 
+                        2019 11 11   
+                    </p>
+                    <button>답글</button>           <p>asldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerj</p>
+                </div>
+                <% } %>
                 <form>
                     <input class="none reply" type="text"><br>
-                    <input class="comment" type="text">
+                    <input class="write_comment" type="text" placeholder="write a comment">
+                    <input type="submit" value="Submit">
                 </form>
             </div>
         </section>
