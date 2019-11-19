@@ -33,30 +33,24 @@
                 <%= results[0].content %>
             </p>
             <div>
-                <h3>댓글</h3>
-                <% for(var i=0; i<5; i++){ %>
-                <div class="comment">
-                    <p>
-                        최준호<br> 
-                        2019 11 11   
-                    </p>
-                    <button>답글</button>           <p>asldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerjasldnflkasmdlkfmlekwnrougheworvlkdmnlkfvnioerj</p>
-                </div>
-                <% } %>
                 <form>
-                    <input class="none reply" type="text"><br>
+                    <h3>댓글</h3>
+                    <% for(var i=0; i<5; i++){ %>
+                    <div class="comment">
+                        <p>
+                            최준호<br>
+                            2019 11 11
+                        </p>
+                        <button type="button">답글</button>
+                        <p>asjdnfkjanskdjf</p>
+                        <input class="write_reply" type="text">
+                        <input type="submit" value="Submit">
+                    </div>
+                    <% } %>
                     <input class="write_comment" type="text" placeholder="write a comment">
                     <input type="submit" value="Submit">
                 </form>
             </div>
         </section>
-        <script>
-            var input = document.querySelector('.none');
-            var button = document.querySelector('button');
-            button.addEventListener("click", function(event){
-              input.classList.toggle('none');  
-            });
-            
-        </script>
     </body>
 </html>

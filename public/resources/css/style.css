@@ -331,10 +331,12 @@ section {
 
 .notice a button {
     float: right;
-    background: rgb(251, 228, 77); 
-    font-size: 14px;
-    padding: 6px 13px;
-    border-radius: 30px;
+    border: none;
+    width: 10%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    background: #f0e23c;
     margin-top: 2%;
     margin-right: 2%;
 }
@@ -366,9 +368,13 @@ section {
 }
 
 .notice_insert input:last-child{
-    padding: 0.5% 2%;
-    color: yellow;
-    background-color: black; 
+    padding: 0;
+    border: none;
+    width: 10%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    background: #f0e23c;
 }
 
 /*--------------------- notice_id  -------------------------------*/
@@ -418,6 +424,7 @@ section {
     padding: 1%;
     border-bottom : 1px solid darkgray;
     width: 100%;
+    overflow: hidden;
 }
 
 .notice_id .comment p{
@@ -439,20 +446,38 @@ section {
 
 .notice_id button {
     float: right;
+    border: none;
+    width: 5%;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 15px;
+    background: #f0e23c;
+}
+
+.notice_id input[type=text]{
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.notice_id .write_reply{
+    height: 10px;
+    padding: 1%;
+}
+
+.notice_id .write_reply:focus{
+    border-bottom: 1px solid blue;
 }
 
 .notice_id .write_comment {
-    width: 100%;
     height: 30px;
-    border: none;
-    border-bottom: 1px solid gray;
+    margin-top: 20px;
 }
 
 .notice_id .write_comment:focus{
     border-bottom: 1px solid blue;
     padding: 1%;
 }
-
 
 .notice_id input[type=submit]{
     color: dodgerblue;
@@ -467,6 +492,7 @@ section {
 
 .notice_id input[type=submit]:hover{
     background: darkgray;
+    color: white;
 }
 /*--------------------- animations -------------------------------*/
 
