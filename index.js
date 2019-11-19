@@ -29,7 +29,15 @@ app.use(session({
     }
 }));
 
-//connect Database
+//엑셀파일 읽어오기
+var workbook = XLSX.readFile(__dirname + '/public/resources/score.xlsx');
+var sheet_name_list = workbook.SheetNames;
+
+//엑셀파일 json파일 형태로 변환
+var scores = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+var mysql = require('mysql');
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -53,16 +61,22 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
         var score_data = XLSX.readFile(__dirname + '/public/resources/score.xlsx');
         var sheet_name_list = score_data.SheetNames;
         var scores = XLSX.utils.sheet_to_json(score_data.Sheets[sheet_name_list[0]]);
+        var dblength = scores.length;
 
-        for (var i = 0; i < scores.length; i++) {
+        connection.query("DELETE FROM score WHERE rank>0", function(err, result, fields){
+            if(err)throw err;
+        });
+
+        for (var i = 0; i < dblength; i++) {
             var studentid = scores[i]["studentid"];
             var score = scores[i]["score"];
             var rank = scores[i]["rank"];
 
-            connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
-        }
 
-    }
+            
+            connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
+            }
+        }
     else {
         console.log("no exists");
     }
