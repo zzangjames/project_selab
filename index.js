@@ -29,7 +29,8 @@ app.use(session({
     }
 }));
 
-//connect Database
+var mysql = require('mysql');
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -54,14 +55,14 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
         var sheet_name_list = score_data.SheetNames;
         var scores = XLSX.utils.sheet_to_json(score_data.Sheets[sheet_name_list[0]]);
 
+        connection.query("DELETE FROM score WHERE rank>0");
+
         for (var i = 0; i < scores.length; i++) {
             var studentid = scores[i]["studentid"];
             var score = scores[i]["score"];
             var rank = scores[i]["rank"];
-
             connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
         }
-
     }
     else {
         console.log("no exists");
@@ -160,7 +161,6 @@ app.get('/notice/:notice_id', function (req, res) {
 
     connection.query('UPDATE notice SET view = view + 1 WHERE notice_id = ?', [notice_id]);
     connection.query(sql, [notice_id], function(error, results, fields){
-        console.log(results);
         if (req.session.user) {
             res.render('notice_id.ejs', {
                 logined: req.session.user.logined,
@@ -220,6 +220,7 @@ app.post('/', function(req, res){
                     logined : true,
                     user_name : results[0].user_name
                 }
+            
                 res.render('index.ejs', {
                     logined : req.session.user.logined, 
                     user_name : req.session.user.user_name
