@@ -54,22 +54,16 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
         var score_data = XLSX.readFile(__dirname + '/public/resources/score.xlsx');
         var sheet_name_list = score_data.SheetNames;
         var scores = XLSX.utils.sheet_to_json(score_data.Sheets[sheet_name_list[0]]);
-        var dblength = scores.length;
 
-        connection.query("DELETE FROM score WHERE rank>0", function(err, result, fields){
-            if(err)throw err;
-        });
+        connection.query("DELETE FROM score WHERE rank>0");
 
-        for (var i = 0; i < dblength; i++) {
+        for (var i = 0; i < scores.length; i++) {
             var studentid = scores[i]["studentid"];
             var score = scores[i]["score"];
             var rank = scores[i]["rank"];
-
-
-            
             connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
-            }
         }
+    }
     else {
         console.log("no exists");
     }
