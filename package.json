@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KRCHOIJUNHO/project_selab.git"
+    "url": "git+https://github.com/minkwns/project_selab.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KRCHOIJUNHO/project_selab/issues"
+    "url": "https://github.com/minkwns/project_selab/issues"
   },
-  "homepage": "https://github.com/KRCHOIJUNHO/project_selab#readme",
+  "homepage": "https://github.com/minkwns/project_selab#readme",
   "dependencies": {
     "cookie-parser": "^1.4.4",
     "ejs": "^2.7.1",
