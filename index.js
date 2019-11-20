@@ -202,11 +202,9 @@ app.post('/notice_insert', function(req, res){
     var title = req.body.title;
     var content = req.body.content;
     var writer_name = req.session.user.user_name;
-    console.log(title);
     
     var sql = 'INSERT INTO notice(title, content, writer_name) VALUES (?,?,?)';
     connection.query(sql, [title, content, writer_name], function(error, results, fields){
-        console.log(error);
         res.redirect('/notice');
     });
 });
