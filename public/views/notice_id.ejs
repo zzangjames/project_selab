@@ -59,6 +59,32 @@
 
                 </form>
             </div>
+
+            <script type="text/javascript">
+
+                var button = document.querySelectorAll("button");
+                var reply = document.getElementsByClassName("write_reply");
+                var submit = document.getElementsByClassName("submit");
+                
+                
+                
+                for(let i=0;i<button.length;i++){
+                    document.querySelectorAll("button")[i].addEventListener("click", function(){
+                        reply[i].classList.toggle("none");
+                        submit[i].classList.toggle("none");
+                        
+                    })
+                    
+                }
+            
+
+            </script>
+
+            
+
+
+
+
         </section>
     </body>
 </html>
