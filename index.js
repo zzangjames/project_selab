@@ -29,13 +29,6 @@ app.use(session({
     }
 }));
 
-//엑셀파일 읽어오기
-var workbook = XLSX.readFile(__dirname + '/public/resources/score.xlsx');
-var sheet_name_list = workbook.SheetNames;
-
-//엑셀파일 json파일 형태로 변환
-var scores = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -174,7 +167,6 @@ app.get('/notice/:notice_id', function (req, res) {
 
     connection.query('UPDATE notice SET view = view + 1 WHERE notice_id = ?', [notice_id]);
     connection.query(sql, [notice_id], function(error, results, fields){
-        console.log(results);
         if (req.session.user) {
             res.render('notice_id.ejs', {
                 logined: req.session.user.logined,
@@ -210,9 +202,11 @@ app.post('/notice_insert', function(req, res){
     var title = req.body.title;
     var content = req.body.content;
     var writer_name = req.session.user.user_name;
+    console.log(title);
     
     var sql = 'INSERT INTO notice(title, content, writer_name) VALUES (?,?,?)';
     connection.query(sql, [title, content, writer_name], function(error, results, fields){
+        console.log(error);
         res.redirect('/notice');
     });
 });
@@ -234,6 +228,7 @@ app.post('/', function(req, res){
                     logined : true,
                     user_name : results[0].user_name
                 }
+            
                 res.render('index.ejs', {
                     logined : req.session.user.logined, 
                     user_name : req.session.user.user_name

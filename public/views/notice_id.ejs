@@ -43,14 +43,40 @@
                         </p>
                         <button type="button">답글</button>
                         <p>asjdnfkjanskdjf</p>
-                        <input class="write_reply" type="text">
-                        <input type="submit" value="Submit">
+                        <input type="text" class="none write_reply" >
+                        <input type="submit" value="Submit" class="submit none">
                     </div>
                     <% } %>
                     <input class="write_comment" type="text" placeholder="write a comment">
                     <input type="submit" value="Submit">
                 </form>
             </div>
+
+            <script type="text/javascript">
+
+                var button = document.querySelectorAll("button");
+                var reply = document.getElementsByClassName("write_reply");
+                var submit = document.getElementsByClassName("submit");
+                
+                
+                
+                for(let i=0;i<button.length;i++){
+                    document.querySelectorAll("button")[i].addEventListener("click", function(){
+                        reply[i].classList.toggle("none");
+                        submit[i].classList.toggle("none");
+                        
+                    })
+                    
+                }
+            
+
+            </script>
+
+            
+
+
+
+
         </section>
     </body>
 </html>
