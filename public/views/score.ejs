@@ -20,30 +20,82 @@
 
         </div>
     </nav>
-    <div class="score_wrap">
+    <div class="score_wrap" >
         <form action="/score" method="POST">
             <div class="score_info">
                 <div>
                     <p>Writing your Student ID</p><br>
-                    <input id="score_id" type="text" name="score" placeholder="2018xxxxxx" required>
-                    <input id="score_button" type="submit" value="Enter">
+                    <input type="text" name="studentid" required>
+                    <input type="submit" value="Enter">
                 </div>
             </div>
         </form>
-        <%if(alert){ %>
-        <div>
-            <span>당신의 점수는 <%=score %>점이며 등수는 <%=rank %>등 입니다.</span>
-        </div>
-        <% } %>
-
     </div>
 
+    <script type="text/javascript">
 
+        var submit = document.querySelector("input[type=submit]");
+        var score_wrap = document.querySelector(".score_wrap");
+        
+        submit.addEventListener('submit', function(event){
+            score_wrap.classList.add("none");
+        });
+
+        
+    </script>
+
+
+        <%if(alert){ %>
+            <div>
+                <span>학번이 잘못 되었습니다.</span>
+            </div>
+        <% } %>
+
+        <% if(results){ %>
+            <div>
+                <button class="score">midterm</button>
+                <button class="score">finalterm</a></button>
+                <button class="score">attendence</button>
+                <button class="score">total</button>
+            
+            </div>
+        <% } %> 
+
+        <script>
+            window.onload = function(){
+        
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme:{
+                    text: "score Chart"
+                },
+                axisY:{
+                    includeZero:false
+                },
+                data: [{
+                    type:"line",
+                    dataPoints: [
+			            { y: 450 },
+			            { y: 414},
+			            { y: 520, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
+			            { y: 460 },
+			            { y: 450 },
+			            { y: 500 },
+			            { y: 480 },
+			            { y: 480 },
+			            { y: 410 , indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
+			            { y: 500 },
+			            { y: 480 },
+			            { y: 510 }
+		                ]
+                }]
+            });
+            chart.render();
+        }
+        
+        </script>
+    
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
-
-
-
-
-
-
 </html>

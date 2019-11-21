@@ -55,13 +55,17 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
         var sheet_name_list = score_data.SheetNames;
         var scores = XLSX.utils.sheet_to_json(score_data.Sheets[sheet_name_list[0]]);
 
-        connection.query("DELETE FROM score WHERE rank>0");
+        connection.query("DELETE FROM score");
 
         for (var i = 0; i < scores.length; i++) {
             var studentid = scores[i]["studentid"];
-            var score = scores[i]["score"];
-            var rank = scores[i]["rank"];
-            connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
+            var midterm = scores[i]["midterm"];
+            var finalterm = scores[i]["finalterm"];
+            var project = scores[i]["project"];
+            var attendence = scores[i]["attendence"];
+
+
+            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendence]);
         }
     }
     else {
@@ -182,8 +186,7 @@ app.get('/score', function(req, res){
     if(req.session.user){
         res.render('score.ejs', {
             alert : false,
-            rank : null,
-            score : null
+            results : false
         });
     }
     else{
@@ -262,21 +265,17 @@ app.post('/score', function(req, res){
     var studentid = req.body.studentid;
     var sql = 'SELECT * FROM score WHERE studentid = ?';
     connection.query(sql, [studentid], function(error, results, fields){
+
             if(results.length > 0){
-                console.log(results);
-                score = results[0].score;
-                rank = results[0].rank;
                 res.render('score.ejs', {
-                    alert : true,
-                    score,
-                    rank
+                    alert : false,
+                    results : results[0]
                 });
             }
             else{
                 res.render('score.ejs', {
-                    alert : false,
-                    score,
-                    rank
+                    alert : true,
+                    results : false
                 });
             }
         
