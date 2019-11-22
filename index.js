@@ -7,6 +7,10 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
+var multer = require('multer');
+var upload = multer ({dest: 'public/uploads'})
+var mime = require('mime');
+var util = require('util');
 
 app.set('views', __dirname + '/public/views');
 app.set('view engine', 'ejs');
@@ -182,6 +186,23 @@ app.get('/notice/:notice_id', function (req, res) {
     })
 });
 
+app.get('/download/:file_name',function(req,res){
+    var file_name = req.params.file_name;
+    var sql = 'SELECT * FROM notice WHERE file_name = ?';
+
+    connection.query(sql, [file_name], function(error, results, fields){
+        var file = __dirname+"/public/uploads/"+results[0].file_name;
+        mimetype = mime.lookup(results[0].file_originalname);
+        res.setHeader('Content-disposition','attachment; filename='+results[0].file_originalname);
+        res.setHeader('Content-type',mimetype);
+        var filestream = fs.createReadStream(file);
+        filestream.pipe(res);
+
+
+    })
+
+});
+
 app.get('/score', function(req, res){
     if(req.session.user){
         res.render('score.ejs', {
@@ -195,13 +216,15 @@ app.get('/score', function(req, res){
 });
 
 // post html
-app.post('/notice_insert', function(req, res){
+app.post('/notice_insert', upload.single('profile'),function(req, res){
     var title = req.body.title;
     var content = req.body.content;
     var writer_name = req.session.user.user_name;
-    
-    var sql = 'INSERT INTO notice(title, content, writer_name) VALUES (?,?,?)';
-    connection.query(sql, [title, content, writer_name], function(error, results, fields){
+    var file_originalname= req.file.originalname;
+    var file_name= req.file.filename;
+
+    var sql = 'INSERT INTO notice(title, content, writer_name,file_originalname,file_name) VALUES (?,?,?,?,?)';
+    connection.query(sql, [title, content, writer_name, file_originalname, file_name], function(error, results, fields){
         res.redirect('/notice');
     });
 });
