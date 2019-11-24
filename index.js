@@ -8,13 +8,13 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
 var multer = require('multer');
-var upload = multer ({dest: 'public/uploads'})
+var upload = multer({ dest: 'public/uploads' })
 var mime = require('mime');
 var util = require('util');
 
 //session
 app.use(session({
-    path :'/',
+    path: '/',
     secret: 'sid',
     resave: false,
     saveUninitialized: true,
@@ -191,15 +191,15 @@ app.get('/notice/:notice_id', function (req, res) {
 });
 
 
-app.get('/download/:file_name',function(req,res){
+app.get('/download/:file_name', function (req, res) {
     var file_name = req.params.file_name;
     var sql = 'SELECT * FROM notice WHERE file_name = ?';
 
-    connection.query(sql, [file_name], function(error, results, fields){
-        var file = __dirname+"/public/uploads/"+results[0].file_name;
+    connection.query(sql, [file_name], function (error, results, fields) {
+        var file = __dirname + "/public/uploads/" + results[0].file_name;
         mimetype = mime.lookup(results[0].file_originalname);
-        res.setHeader('Content-disposition','attachment; filename='+results[0].file_originalname);
-        res.setHeader('Content-type',mimetype);
+        res.setHeader('Content-disposition', 'attachment; filename=' + results[0].file_originalname);
+        res.setHeader('Content-type', mimetype);
         var filestream = fs.createReadStream(file);
         filestream.pipe(res);
 
@@ -222,15 +222,15 @@ app.get('/score', function (req, res) {
 });
 
 // post html
-app.post('/notice_insert', upload.single('profile'),function(req, res){
+app.post('/notice_insert', upload.single('profile'), function (req, res) {
     var title = req.body.title;
     var content = req.body.content;
     var writer_name = req.session.user.user_name;
-    var file_originalname= req.file.originalname;
-    var file_name= req.file.filename;
+    var file_originalname = req.file.originalname;
+    var file_name = req.file.filename;
 
     var sql = 'INSERT INTO notice(title, content, writer_name,file_originalname,file_name) VALUES (?,?,?,?,?)';
-    connection.query(sql, [title, content, writer_name, file_originalname, file_name], function(error, results, fields){
+    connection.query(sql, [title, content, writer_name, file_originalname, file_name], function (error, results, fields) {
         res.redirect('/notice');
     });
 });
@@ -255,7 +255,7 @@ app.post('/', function (req, res) {
 
                 res.render('index.ejs', {
                     logined: req.session.user.logined,
-                    user_name: 'jinwoo'
+                    user_name: req.session.user.user_name
                 });
             }
             else {
@@ -306,14 +306,14 @@ app.post('/score', function (req, res) {
                 attendence: results[4],
 
                 length: results[1].length,
-                user_name:req.session.user.user_name
+                user_name: req.session.user.user_name
             });
         }
         else {
             res.render('score.ejs', {
                 alert: true,
                 results: false,
-                user_name:req.session.user.user_name
+                user_name: req.session.user.user_name
             });
         }
     });
