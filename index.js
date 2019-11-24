@@ -14,7 +14,6 @@ var util = require('util');
 
 //session
 app.use(session({
-    path: '/',
     secret: 'sid',
     resave: false,
     saveUninitialized: true,
