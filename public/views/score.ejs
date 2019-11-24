@@ -1,10 +1,10 @@
-
 <html>
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" rel="text/css" href="../resources/css/style.css">
     <title>Check Score</title>
+
 </head>
 
 <body>
@@ -16,11 +16,11 @@
             <a href="/research">research</a>
             <a href="#">publications</a>
             <a href="#">courses</a>
-            <a href="login" class="login">login</a>
+            <a href="#" class="login"><%=user_name%> 님</a>
 
         </div>
     </nav>
-    <div class="score_wrap" >
+    <div class="score_wrap">
         <form action="/score" method="POST">
             <div class="score_info">
                 <div>
@@ -32,70 +32,88 @@
         </form>
     </div>
 
-    <script type="text/javascript">
 
-        var submit = document.querySelector("input[type=submit]");
-        var score_wrap = document.querySelector(".score_wrap");
-        
-        submit.addEventListener('submit', function(event){
+
+
+    <%if(alert){ %>
+    <div>
+        <span>학번이 잘못 되었습니다.</span>
+    </div>
+    <% } %>
+
+    <% if(results){ %>
+    <div>
+        <button class="score">midterm</button>
+        <button class="score">finalterm</a></button>
+        <button class="score">project</button>
+        <button class="score">attendence</button>
+        <button class="score">total</button>
+
+        <script type="text/javascript">
+            var score_wrap = document.querySelector(".score_wrap");
             score_wrap.classList.add("none");
-        });
-
-        
-    </script>
-
-
-        <%if(alert){ %>
-            <div>
-                <span>학번이 잘못 되었습니다.</span>
-            </div>
-        <% } %>
-
-        <% if(results){ %>
-            <div>
-                <button class="score">midterm</button>
-                <button class="score">finalterm</a></button>
-                <button class="score">attendence</button>
-                <button class="score">total</button>
-            
-            </div>
-        <% } %> 
-
-        <script>
-            window.onload = function(){
-        
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                theme:{
-                    text: "score Chart"
-                },
-                axisY:{
-                    includeZero:false
-                },
-                data: [{
-                    type:"line",
-                    dataPoints: [
-			            { y: 450 },
-			            { y: 414},
-			            { y: 520, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
-			            { y: 460 },
-			            { y: 450 },
-			            { y: 500 },
-			            { y: 480 },
-			            { y: 480 },
-			            { y: 410 , indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
-			            { y: 500 },
-			            { y: 480 },
-			            { y: 510 }
-		                ]
-                }]
-            });
-            chart.render();
-        }
-        
         </script>
-    
-        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    </div>
+
+    <canvas id="total"></canvas>
+
+    <table class="none">
+        <thead>
+            <tr>
+                <th>midterm/</th>
+                <th>finalterm/</th>
+                <th>project/</th>
+                <th>attendence/</th>
+                <th>total/</th>
+                <th>myscore</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0;i<length; i++) { %>
+            <tr>
+                <td class="midterm"><%= midterm[i].midterm %></td>
+                <td class="finalterm"><%= finalterm[i].finalterm %></td>
+                <td class="project"><%= project[i].project %></td>
+                <td class="attendence"><%= attendence[i].attendence %></td>
+                <td class="sum">
+                    <%= midterm[i].midterm +finalterm[i].finalterm+project[i].project+attendence[i].attendence %></td>
+
+            </tr>
+            <%  } %>
+
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>my_midterm/</th>
+                <th>my_finalterm/</th>
+                <th>my_project/</th>
+                <th>my_attendence/</th>
+                <th>my_sum</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td class="my_midterm"><%= results[0].midterm %></td>
+                <td class="my_finalterm"><%= results[0].finalterm %></td>
+                <td class="my_project"><%= results[0].project %></td>
+                <td class="my_attendence"><%= results[0].attendence %></td>
+                <td class="my_sum">
+                    <%= results[0].midterm + results[0].finalterm + results[0].project + results[0].attendence %></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <% } %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="../resources/js/score.js"></script>
+
+
+
 </body>
+
 </html>
