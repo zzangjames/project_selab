@@ -11,7 +11,9 @@ var multer = require('multer');
 var upload = multer({ dest: 'public/uploads' })
 var mime = require('mime');
 var util = require('util');
+var cookieParser = require('cookie-parser');
 
+app.use(cookieParser())
 //session
 app.use(session({
     secret: 'sid',
