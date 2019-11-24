@@ -34,12 +34,12 @@
 
             <p>
                 <%= results1[0].content %>
-                <a href = "/download/<%= results[0].file_name %>"> <%= results[0].file_originalname %>
+                <a href = "/download/<%= results1[0].file_name %>"> <%= results1[0].file_originalname %>
             </a>
             </p>
 
             <p>
-                <%= results[0].content %>
+                <%= results1[0].content %>
             </p>
             <div>
                 <form action=<%=`/notice/${notice_id}`%> method="post">
