@@ -21,6 +21,7 @@
                 <% } %>   
             </div>
         </nav>
+
         <section class="notice_id">
              <% var date = JSON.stringify(results1[0].date);
                 date = date.substring(1,11).split("-"); 
@@ -30,8 +31,15 @@
                 <%= results1[0].writer_name %>
                  <span><%= `${date[0]}/${date[1]}/${date[2]}` %></span> 
             </p>
+
             <p>
                 <%= results1[0].content %>
+                <a href = "/download/<%= results[0].file_name %>"> <%= results[0].file_originalname %>
+            </a>
+            </p>
+
+            <p>
+                <%= results[0].content %>
             </p>
             <div>
                 <form action=<%=`/notice/${notice_id}`%> method="post">

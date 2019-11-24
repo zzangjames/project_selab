@@ -1,24 +1,19 @@
 var express = require('express');
 var app = express();
-var path = require ('path');
+var path = require('path');
 var XLSX = require('xlsx');
 var server = require('http').createServer(app);
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
+var multer = require('multer');
+var upload = multer({ dest: 'public/uploads' })
+var mime = require('mime');
+var util = require('util');
+var cookieParser = require('cookie-parser');
 
-app.set('views', __dirname + '/public/views');
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(__dirname + '/public'));
-
-//localhost:3000
-app.listen(3000, function (){
-    console.log('Example app listening on port 3000!');
-});
-
+app.use(cookieParser())
 //session
 app.use(session({
     secret: 'sid',
@@ -29,9 +24,22 @@ app.use(session({
     }
 }));
 
+app.set('views', __dirname + '/public/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+
+//localhost:3000
+app.listen(3000, function () {
+    console.log('Example app listening on port 3000!');
+});
+
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
+    multipleStatements: true,
     host: 'localhost',
     user: 'root',
     post: 3000,
@@ -40,13 +48,14 @@ var connection = mysql.createConnection({
     multipleStatements: true
 });
 
-connection.connect(function (err){
-    if(err){
+connection.connect(function (err) {
+    if (err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
     console.log('Success DB connection');
 });
+
 
 //Excel file
 fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
@@ -56,13 +65,17 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
         var sheet_name_list = score_data.SheetNames;
         var scores = XLSX.utils.sheet_to_json(score_data.Sheets[sheet_name_list[0]]);
 
-        connection.query("DELETE FROM score WHERE rank>0");
+        connection.query("DELETE FROM score");
 
         for (var i = 0; i < scores.length; i++) {
             var studentid = scores[i]["studentid"];
-            var score = scores[i]["score"];
-            var rank = scores[i]["rank"];
-            connection.query("INSERT INTO score VALUES(?,?,?)", [studentid, score, rank]);
+            var midterm = scores[i]["midterm"];
+            var finalterm = scores[i]["finalterm"];
+            var project = scores[i]["project"];
+            var attendence = scores[i]["attendence"];
+
+
+            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendence]);
         }
     }
     else {
@@ -71,84 +84,84 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
 });
 
 // get html(rendering)
-app.get('/', function (req, res){
+app.get('/', function (req, res) {
     if (req.session.user) {
         res.render('index.ejs', {
-            logined : req.session.user.logined,
-            user_name : req.session.user.user_name
+            logined: req.session.user.logined,
+            user_name: req.session.user.user_name
         });
     }
     else {
         res.render('index.ejs', {
-            logined : false,
-            user_name : " "
+            logined: false,
+            user_name: " "
         });
     }
 });
 
-app.get('/login', function (req, res){
-    res.render('login.ejs');
+app.get('/login', function (req, res) {
+    res.render('login.ejs', { data: true });
 });
 
-app.get('/register', function(req, res){
-    res.render('register.ejs', {alert: false});
+app.get('/register', function (req, res) {
+    res.render('register.ejs', { alert: false });
 });
 
-app.get('/members', function(req, res){
+app.get('/members', function (req, res) {
     if (req.session.user) {
         res.render('members.ejs', {
-            logined : req.session.user.logined,
-            user_name : req.session.user.user_name
+            logined: req.session.user.logined,
+            user_name: req.session.user.user_name
         });
     }
     else {
         res.render('members.ejs', {
-            logined : false,
-            user_name : " "
+            logined: false,
+            user_name: " "
         });
     }
 });
 
-app.get('/research', function(req, res){
+app.get('/research', function (req, res) {
     if (req.session.user) {
         res.render('research.ejs', {
-            logined : req.session.user.logined,
-            user_name : req.session.user.user_name
+            logined: req.session.user.logined,
+            user_name: req.session.user.user_name
         });
     }
     else {
         res.render('research.ejs', {
-            logined : false,
-            user_name : " "
+            logined: false,
+            user_name: " "
         });
     }
 });
 
-app.get('/notice', function (req, res){
+app.get('/notice', function (req, res) {
     var sql = 'SELECT * FROM notice';
-    connection.query(sql, function(error, results, fields){
+    connection.query(sql, function (error, results, fields) {
         if (req.session.user) {
             res.render('notice.ejs', {
-                logined : req.session.user.logined,
-                user_name : req.session.user.user_name,
-                results 
+                logined: req.session.user.logined,
+                user_name: req.session.user.user_name,
+                results
             });
         }
         else {
             res.render('notice.ejs', {
-                logined : false,
-                user_name : " ",
+                logined: false,
+                user_name: " ",
                 results
             });
         }
     });
 });
 
-app.get('/notice_insert', function (req, res){
+app.get('/notice_insert', function (req, res) {
     if (req.session.user) {
         res.render('notice_insert.ejs', {
-            logined : req.session.user.logined,
-            user_name : req.session.user.user_name
+            logined: req.session.user.logined,
+            user_name: req.session.user.user_name
         });
     }
     else {
@@ -173,7 +186,7 @@ app.get('/notice/:notice_id', function (req, res) {
                 results2,
                 notice_id
             });
-        } 
+        }
         else {
             res.render('notice_id.ejs', {
                 logined: false,
@@ -186,27 +199,47 @@ app.get('/notice/:notice_id', function (req, res) {
     })
 });
 
-app.get('/score', function(req, res){
-    if(req.session.user){
+
+app.get('/download/:file_name', function (req, res) {
+    var file_name = req.params.file_name;
+    var sql = 'SELECT * FROM notice WHERE file_name = ?';
+
+    connection.query(sql, [file_name], function (error, results, fields) {
+        var file = __dirname + "/public/uploads/" + results[0].file_name;
+        mimetype = mime.lookup(results[0].file_originalname);
+        res.setHeader('Content-disposition', 'attachment; filename=' + results[0].file_originalname);
+        res.setHeader('Content-type', mimetype);
+        var filestream = fs.createReadStream(file);
+        filestream.pipe(res);
+
+
+    })
+
+});
+
+app.get('/score', function (req, res) {
+    if (req.session.user) {
         res.render('score.ejs', {
-            alert : false,
-            rank : null,
-            score : null
+            alert: false,
+            results: false,
+            user_name: req.session.user.user_name
         });
     }
-    else{
+    else {
         res.redirect('/login');
     }
 });
 
 // post html
-app.post('/notice_insert', function(req, res){
+app.post('/notice_insert', upload.single('profile'), function (req, res) {
     var title = req.body.title;
     var content = req.body.content;
     var writer_name = req.session.user.user_name;
-    
-    var sql = 'INSERT INTO notice(title, content, writer_name) VALUES (?,?,?)';
-    connection.query(sql, [title, content, writer_name], function(error, results, fields){
+    var file_originalname = req.file.originalname;
+    var file_name = req.file.filename;
+
+    var sql = 'INSERT INTO notice(title, content, writer_name,file_originalname,file_name) VALUES (?,?,?,?,?)';
+    connection.query(sql, [title, content, writer_name, file_originalname, file_name], function (error, results, fields) {
         res.redirect('/notice');
     });
 });
@@ -229,79 +262,83 @@ app.post('/notice/:notice_id', function(req, res){
 app.post('/', function(req, res){
     var user_id = req.body.user_id;
     var user_password = req.body.user_password;
-    
+
     var sql = 'SELECT * FROM user_info WHERE user_id = ?';
-    connection.query(sql, [user_id], function(error, results, fields){
-        if(results.length == 0){
-            res.render('login.ejs', {alert: true});
-        } else{
+    connection.query(sql, [user_id], function (error, results, fields) {
+        if (results.length == 0) {
+            res.render('login.ejs', { alert: true });
+        } else {
             var db_pwd = results[0].user_password;
 
-            if(user_password == db_pwd){
+            if (user_password == db_pwd) {
                 //session
                 req.session.user = {
-                    logined : true,
-                    user_name : results[0].user_name
+                    logined: true,
+                    user_name: results[0].user_name
                 }
-            
+
                 res.render('index.ejs', {
-                    logined : req.session.user.logined, 
-                    user_name : req.session.user.user_name
+                    logined: req.session.user.logined,
+                    user_name: req.session.user.user_name
                 });
-            } 
-            else{
-                res.render('login.ejs', {alert: true});
+            }
+            else {
+                res.render('login.ejs', { alert: true });
             }
         }
     });
 })
 
-app.post('/register', function(req, res){
+app.post('/register', function (req, res) {
     var user_name = req.body.user_name;
     var studentid = req.body.studentid;
     var user_id = req.body.user_id;
     var user_password = req.body.user_password;
     var pwdconf = req.body.pwdconf;
-    
-    if(user_password !== pwdconf){
+
+    if (user_password !== pwdconf) {
         res.redirect('/register');
     }
     else {
         var sql = 'SELECT * FROM user_info WHERE user_name = ?';
-        connection.query(sql, [user_name], function(error, results, fields){
-            if(results.length == 0){
-                connection.query("INSERT INTO user_info VALUES(?,?,?,?)", [user_name,studentid,user_id,user_password], function(){
+        connection.query(sql, [user_name], function (error, results, fields) {
+            if (results.length == 0) {
+                connection.query("INSERT INTO user_info VALUES(?,?,?,?)", [user_name, studentid, user_id, user_password], function () {
                     res.redirect('/login');
-                }); 
+                });
             }
-            else{ 
-                res.render("register.ejs", {alert: true});
+            else {
+                res.render("register.ejs", { alert: true });
             }
-        }); 
+        });
     }
 });
 
-app.post('/score', function(req, res){
+app.post('/score', function (req, res) {
     var studentid = req.body.studentid;
-    var sql = 'SELECT * FROM score WHERE studentid = ?';
-    connection.query(sql, [studentid], function(error, results, fields){
-            if(results.length > 0){
-                console.log(results);
-                score = results[0].score;
-                rank = results[0].rank;
-                res.render('score.ejs', {
-                    alert : true,
-                    score,
-                    rank
-                });
-            }
-            else{
-                res.render('score.ejs', {
-                    alert : false,
-                    score,
-                    rank
-                });
-            }
-        
+
+    var sql = 'SELECT * FROM score WHERE studentid = ?; SELECT midterm FROM score; SELECT finalterm FROM score; SELECT project FROM score; SELECT attendence FROM score';
+    connection.query(sql, [studentid], function (error, results, fields) {
+        if (results[0].length > 0) {
+
+            res.render('score.ejs', {
+                alert: false,
+                results: results[0],
+                midterm: results[1],
+                finalterm: results[2],
+                project: results[3],
+                attendence: results[4],
+
+                length: results[1].length,
+                user_name: req.session.user.user_name
+            });
+        }
+        else {
+            res.render('score.ejs', {
+                alert: true,
+                results: false,
+                user_name: req.session.user.user_name
+            });
+        }
     });
 });
