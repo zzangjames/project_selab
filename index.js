@@ -87,7 +87,7 @@ app.get('/', function (req, res){
 });
 
 app.get('/login', function (req, res){
-    res.render('login.ejs', {data:true});
+    res.render('login.ejs');
 });
 
 app.get('/register', function(req, res){
@@ -159,10 +159,10 @@ app.get('/notice_insert', function (req, res){
 app.get('/notice/:notice_id', function (req, res) {
     var notice_id = req.url.split("/")[2];
     var sql1 = 'SELECT * FROM notice WHERE notice_id = ?; ';
-    var sql2 = 'SELECT * FROM comment; ';
+    var sql2 = 'SELECT * FROM comment WHERE notice_id = ?; ';
 
     connection.query('UPDATE notice SET view = view + 1 WHERE notice_id = ?', [notice_id]);
-    connection.query(sql1 + sql2, [notice_id], function(error, results, fields){
+    connection.query(sql1 + sql2, [notice_id, notice_id], function(error, results, fields){
         results1 = results[0];
         results2 = results[1];
         if (req.session.user) {    
@@ -170,7 +170,8 @@ app.get('/notice/:notice_id', function (req, res) {
                 logined: req.session.user.logined,
                 user_name: req.session.user.user_name,
                 results1,
-                results2    
+                results2,
+                notice_id
             });
         } 
         else {
@@ -178,8 +179,9 @@ app.get('/notice/:notice_id', function (req, res) {
                 logined: false,
                 user_name: " ",
                 results1,
-                results2
-            })
+                results2,
+                notice_id
+            });
         }
     })
 });
@@ -207,6 +209,21 @@ app.post('/notice_insert', function(req, res){
     connection.query(sql, [title, content, writer_name], function(error, results, fields){
         res.redirect('/notice');
     });
+});
+
+app.post('/notice/:notice_id', function(req, res){
+    if(req.session.user){
+        var notice_id = req.url.split("/")[2];
+        var comment = req.body.comment;
+        var writer_name = req.session.user.user_name;
+        var sql = `INSERT INTO comment(notice_id, comment, writer_name) VALUES (?,?,?) ;`
+        connection.query(sql, [notice_id, comment, writer_name], function(error, results, fields){
+            res.redirect(`/notice/${notice_id}`);
+        });
+    }
+    else {
+        res.render('login.ejs');
+    }
 });
 
 app.post('/', function(req, res){
