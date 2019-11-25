@@ -72,10 +72,10 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
             var midterm = scores[i]["midterm"];
             var finalterm = scores[i]["finalterm"];
             var project = scores[i]["project"];
-            var attendence = scores[i]["attendence"];
+            var attendance = scores[i]["attendance"];
 
 
-            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendence]);
+            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendance]);
         }
     }
     else {
@@ -317,8 +317,9 @@ app.post('/register', function (req, res) {
 app.post('/score', function (req, res) {
     var studentid = req.body.studentid;
 
-    var sql = 'SELECT * FROM score WHERE studentid = ?; SELECT midterm FROM score; SELECT finalterm FROM score; SELECT project FROM score; SELECT attendence FROM score';
+    var sql = 'SELECT * FROM score WHERE studentid = ?; SELECT midterm FROM score; SELECT finalterm FROM score; SELECT project FROM score; SELECT attendance FROM score';
     connection.query(sql, [studentid], function (error, results, fields) {
+        console.log(results[2]);
         if (results[0].length > 0) {
 
             res.render('score.ejs', {
@@ -327,7 +328,7 @@ app.post('/score', function (req, res) {
                 midterm: results[1],
                 finalterm: results[2],
                 project: results[3],
-                attendence: results[4],
+                attendance: results[4],
 
                 length: results[1].length,
                 user_name: req.session.user.user_name
