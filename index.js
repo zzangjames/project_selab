@@ -44,7 +44,8 @@ var connection = mysql.createConnection({
     user: 'root',
     post: 3000,
     password: '',
-    database: 'selab'
+    database: 'selab',
+    multipleStatements: true
 });
 
 connection.connect(function (err) {
@@ -71,10 +72,10 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
             var midterm = scores[i]["midterm"];
             var finalterm = scores[i]["finalterm"];
             var project = scores[i]["project"];
-            var attendence = scores[i]["attendence"];
+            var attendance = scores[i]["attendance"];
 
 
-            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendence]);
+            connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendance]);
         }
     }
     else {
@@ -170,23 +171,30 @@ app.get('/notice_insert', function (req, res) {
 
 app.get('/notice/:notice_id', function (req, res) {
     var notice_id = req.url.split("/")[2];
-    var sql = 'SELECT * FROM notice WHERE notice_id = ?';
+    var sql1 = 'SELECT * FROM notice WHERE notice_id = ?; ';
+    var sql2 = 'SELECT * FROM comment WHERE notice_id = ?; ';
 
     connection.query('UPDATE notice SET view = view + 1 WHERE notice_id = ?', [notice_id]);
-    connection.query(sql, [notice_id], function (error, results, fields) {
-        if (req.session.user) {
+    connection.query(sql1 + sql2, [notice_id, notice_id], function(error, results, fields){
+        results1 = results[0];
+        results2 = results[1];
+        if (req.session.user) {    
             res.render('notice_id.ejs', {
                 logined: req.session.user.logined,
                 user_name: req.session.user.user_name,
-                results
+                results1,
+                results2,
+                notice_id
             });
         }
         else {
             res.render('notice_id.ejs', {
                 logined: false,
                 user_name: " ",
-                results
-            })
+                results1,
+                results2,
+                notice_id
+            });
         }
     })
 });
@@ -236,7 +244,22 @@ app.post('/notice_insert', upload.single('profile'), function (req, res) {
     });
 });
 
-app.post('/', function (req, res) {
+app.post('/notice/:notice_id', function(req, res){
+    if(req.session.user){
+        var notice_id = req.url.split("/")[2];
+        var comment = req.body.comment;
+        var writer_name = req.session.user.user_name;
+        var sql = `INSERT INTO comment(notice_id, comment, writer_name) VALUES (?,?,?) ;`
+        connection.query(sql, [notice_id, comment, writer_name], function(error, results, fields){
+            res.redirect(`/notice/${notice_id}`);
+        });
+    }
+    else {
+        res.render('login.ejs');
+    }
+});
+
+app.post('/', function(req, res){
     var user_id = req.body.user_id;
     var user_password = req.body.user_password;
 
@@ -294,8 +317,9 @@ app.post('/register', function (req, res) {
 app.post('/score', function (req, res) {
     var studentid = req.body.studentid;
 
-    var sql = 'SELECT * FROM score WHERE studentid = ?; SELECT midterm FROM score; SELECT finalterm FROM score; SELECT project FROM score; SELECT attendence FROM score';
+    var sql = 'SELECT * FROM score WHERE studentid = ?; SELECT midterm FROM score; SELECT finalterm FROM score; SELECT project FROM score; SELECT attendance FROM score';
     connection.query(sql, [studentid], function (error, results, fields) {
+        console.log(results[2]);
         if (results[0].length > 0) {
 
             res.render('score.ejs', {
@@ -304,7 +328,7 @@ app.post('/score', function (req, res) {
                 midterm: results[1],
                 finalterm: results[2],
                 project: results[3],
-                attendence: results[4],
+                attendance: results[4],
 
                 length: results[1].length,
                 user_name: req.session.user.user_name
