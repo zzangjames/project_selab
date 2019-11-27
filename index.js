@@ -313,8 +313,7 @@ app.post('/register', function (req, res) {
 app.post('/score', function (req, res) {
     var studentid = req.body.studentid;
     var user_name = req.session.user.user_name;
-    var temp = 'SELECT studentid FROM user_info WHERE user_name=?';
-    connection.query(temp, [user_name], function (error, results, fields) {
+    connection.query('SELECT studentid FROM user_info WHERE user_name=?', [user_name], function (error, results, fields) {
         if (results[0].studentid != studentid) {
             res.render('score.ejs',
                 {
