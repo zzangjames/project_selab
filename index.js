@@ -71,7 +71,6 @@ fs.exists(__dirname + '/public/resources/score.xlsx', function (exists) {
             var project = scores[i]["project"];
             var attendance = scores[i]["attendance"];
 
-
             connection.query("INSERT INTO score VALUES(?,?,?,?,?)", [studentid, midterm, finalterm, project, attendance]);
         }
     }
@@ -255,7 +254,26 @@ app.post('/notice/:notice_id', function (req, res) {
     }
 });
 
-app.post('/', function (req, res) {
+app.post('/notice/:notice_id/reply/:id', function(req, res){
+    if(req.session.user){
+        var notice_id = req.url.split("/")[2];
+        var group_no = req.url.split("/")[4];
+        var reply = req.body.reply;
+        var writer_name = req.session.user.user_name;
+
+        console.log(group_no);
+
+        var sql = `INSERT INTO comment(notice_id, group_no, comment, writer_name) VALUES (?,?,?,?) ;`
+        connection.query(sql, [notice_id, group_no, reply, writer_name], function(error, results, fields){
+            res.redirect(`/notice/${notice_id}`);
+        });
+    }
+    else {
+        res.render('login.ejs');
+    }
+});
+
+app.post('/', function(req, res){
     var user_id = req.body.user_id;
     var user_password = req.body.user_password;
 

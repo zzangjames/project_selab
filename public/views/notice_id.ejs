@@ -44,26 +44,38 @@
             <div>
                 <form action=<%=`/notice/${notice_id}`%> method="post">
                     <h3>댓글</h3>
-                    <%  results2.forEach(function(row){
+                    <%  var id = 0;
+                        results2.forEach(function(row){
                         var date = JSON.stringify(row.date);
                         date = date.substring(1,11).split("-");
                     %>
-                    <div class="comment">
-                        <p>
-                            <%=row.writer_name%><br>
-                            <%=`${date[0]}/${date[1]}/${date[2]}`%>
-                        </p>
-                        <button type="button">답글</button>
-                        <p><%=row.comment%></p>
-                        <input class="write_reply none" type="text">
-                        <input class="submit none" type="submit" value="Submit">
-                    </div>
-                    <% }) %>
+                    
+                        <div class="comment">
+                            <p>
+                                <%=row.writer_name%><br>
+                                <%=`${date[0]}/${date[1]}/${date[2]}`%>
+                            </p>
+                            <button type="button">답글</button>
+                            <p><%=row.comment%></p>
+                            <input class="write_reply none" name="reply" type="text">
+                            <input id = <%=id%> class="submit none" type="submit" value="Submit" onclick="javascript: from.action='<%=`/notice/${notice_id}/reply/${id}`%>'">
+                        </div>
+                    
+                    <% id++;
+                        }) %>
                     <input class="write_comment" name="comment" type="text" placeholder="write a comment">
-                    <input class="comment_writing" type="submit" value="Submit">
+                    <input class="comment_writing" type="submit" value="Submit" >
 
                 </form>
             </div>
+
+            <script type="text/javascript">
+                function calculate(){
+                    var e = window.event,
+                    btn = e.target || e.srcElement;
+                    console.log(btn.id);
+}
+            </script>
 
             <script type="text/javascript">
                 var button = document.querySelectorAll("button");
